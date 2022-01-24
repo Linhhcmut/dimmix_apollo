@@ -1,6 +1,9 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:garage_apollo/src/constants/login_constant.dart';
 import 'package:garage_apollo/src/pages/home_page.dart';
+import 'package:garage_apollo/src/pages/register-page.dart';
+import 'package:garage_apollo/src/repositories/user_repository.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +13,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    // var user_repository = User_Repository();
+    // user_repository.signUp(
+    //   username: "linh1996",
+    //   email: "linh123@gmail.com",
+    //   password: "12345678",
+    //   name: "linh nguyen",
+    //   phone: "086915273",
+    // );
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -21,13 +33,14 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: paddingDQSmartAndTop,
                 ),
-                Image.asset("assets/images/dqsmart.png"),
+                Image.asset(logoDQSmart),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: paddingVerticalLoginText),
+                    vertical: paddingVerticalLoginText,
+                  ),
                   child: Center(
                     child: Text(
-                      "Đăng nhập",
+                      titleLogin,
                       style: TextStyle(
                         fontSize: sizeLoginText,
                         color: colorLoginText,
@@ -40,11 +53,11 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(borderTFFAndButton),
                     ),
-                    hintText: "Email",
+                    hintText: hintTextUserName,
                     hintStyle: TextStyle(
                       color: colorHintTextFormField,
                     ),
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: iconUserName,
                   ),
                 ),
                 Padding(
@@ -54,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: OutlineInputBorder(
                           borderRadius:
                               BorderRadius.circular(borderTFFAndButton)),
-                      hintText: "Mật khẩu",
+                      hintText: hintTextPassword,
                       hintStyle: TextStyle(
                         color: colorHintTextFormField,
                       ),
@@ -70,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: GestureDetector(
                       onTap: _forgotPassPress,
                       child: Text(
-                        "Quên mật khẩu?",
+                        textForgotPassword,
                         style: TextStyle(
                           fontSize: sizeForgotPassText,
                           color: colorLinkText,
@@ -81,7 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: paddingVericalButtonLogin),
+                    vertical: paddingVericalButtonLogin,
+                  ),
                   child: SizedBox(
                     height: heightButtonLogin,
                     width: double.infinity,
@@ -95,10 +109,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: _loginButtonPress,
                       child: Text(
-                        "ĐĂNG NHẬP",
+                        textButtonLogin,
                         style: TextStyle(
                           fontSize: sizeTextLoginButton,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: fontWeightTextButton,
                           color: colorTextButton,
                         ),
                       ),
@@ -108,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   child: Center(
                     child: Text(
-                      "Hoặc đăng nhập với",
+                      textLoginWith,
                       style: TextStyle(
                         fontSize: sizeForgotPassText,
                         color: colorHintTextFormField,
@@ -118,7 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: paddingVericalButtonLogin),
+                    vertical: paddingVericalButtonLogin,
+                  ),
                   child: SizedBox(
                     width: double.infinity,
                     height: heightButtonLogin,
@@ -134,16 +149,16 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Image.asset(
-                            "assets/images/google4.png",
-                            width: 30,
-                            height: 30,
+                            logoGoogle,
+                            width: widthLogoGoogle,
+                            height: heightLogoGoogle,
                             color: colorTextButton,
                           ),
                           SizedBox(
-                            width: 10,
+                            width: paddingLogoAndGoogleButton,
                           ),
                           Text(
-                            "Google",
+                            textGoogleButton,
                             style: TextStyle(
                               fontSize: sizeTextLoginButton,
                               color: colorTextButton,
@@ -159,13 +174,13 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Chưa có tài khoản?",
+                      textHaveAccount,
                       style: TextStyle(fontSize: sizeForgotPassText),
                     ),
                     GestureDetector(
                       onTap: _signUpPress,
                       child: Text(
-                        " Đăng ký",
+                        textHaveAccountSignUp,
                         style: TextStyle(
                           color: colorLinkText,
                           fontSize: sizeForgotPassText,
@@ -186,11 +201,17 @@ class _LoginPageState extends State<LoginPage> {
     //continue...
   }
   void _signUpPress() {
-    //continue...
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegisterPage(),
+      ),
+    );
   }
 
   void _loginButtonPress() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   void _googleButtonPress() {
