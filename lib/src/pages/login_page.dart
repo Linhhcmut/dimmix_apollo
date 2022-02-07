@@ -1,9 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:garage_apollo/src/blocs/signUp_bloc.dart';
 import 'package:garage_apollo/src/constants/login_constant.dart';
 import 'package:garage_apollo/src/pages/home_page.dart';
 import 'package:garage_apollo/src/pages/register-page.dart';
 import 'package:garage_apollo/src/repositories/user_repository.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -33,7 +34,9 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: paddingDQSmartAndTop,
                 ),
+                //logo
                 Image.asset(logoDQSmart),
+                //title login page
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: paddingVerticalLoginText,
@@ -48,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                //user name login textformfield
                 TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -60,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                     prefixIcon: iconUserName,
                   ),
                 ),
+                //password login textformfield
                 Padding(
                   padding: const EdgeInsets.only(top: paddingPasswordTop),
                   child: TextFormField(
@@ -75,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                //forgot password link text
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: paddingVerticalForgotPassText),
@@ -92,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                //button login
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: paddingVericalButtonLogin,
@@ -119,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                //login with text
                 Container(
                   child: Center(
                     child: Text(
@@ -130,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                //button login with google
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: paddingVericalButtonLogin,
@@ -170,6 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                // text signup
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -204,7 +214,10 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => RegisterPage(),
+        builder: (context) => Provider<SignUpBloc>.value(
+          value: SignUpBloc(),
+          child: RegisterPage(),
+        ),
       ),
     );
   }
