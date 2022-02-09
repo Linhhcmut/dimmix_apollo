@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:garage_apollo/src/blocs/signUp_bloc.dart';
-import 'package:garage_apollo/src/pages/register-page.dart';
-import 'package:provider/provider.dart';
 import 'src/pages/login_page.dart';
 
 void main() {

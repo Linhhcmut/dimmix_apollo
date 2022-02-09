@@ -1,24 +1,27 @@
 import 'dart:async';
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:garage_apollo/src/repositories/user_repository.dart';
 import 'package:garage_apollo/src/validations/user_validation.dart';
 
 class SignUpBloc {
-
   User_Repository user_repository;
 
   StreamController _usernameController = new StreamController.broadcast();
   StreamController _emailController = new StreamController.broadcast();
   StreamController _passwordController = new StreamController.broadcast();
+  StreamController _passwordAgainController = new StreamController.broadcast();
   StreamController _nameController = new StreamController.broadcast();
   StreamController _phoneController = new StreamController.broadcast();
 
   Stream get username => _usernameController.stream;
   Stream get email => _emailController.stream;
   Stream get password => _passwordController.stream;
+  Stream get passwordAgain => _passwordAgainController.stream;
   Stream get name => _nameController.stream;
   Stream get phone => _phoneController.stream;
+
+  String txtpassword = "";
 
   bool isValidUsername(String username) {
     if (ValidationUser.validateUsername(username)) {
@@ -39,11 +42,21 @@ class SignUpBloc {
   }
 
   bool isValidPassword(String password) {
+    txtpassword = password;
     if (ValidationUser.validatePassword(password)) {
       _passwordController.sink.add("OK");
       return true;
     }
     _passwordController.sink.addError("Invalid password");
+    return false;
+  }
+
+  bool isValidPasswordAgain(String password){
+    if(password == txtpassword && password != ""){
+      _passwordAgainController.sink.add("OK");
+      return true;
+    }
+    _passwordAgainController.sink.addError("Invalid password again");
     return false;
   }
 
@@ -72,11 +85,11 @@ class SignUpBloc {
     String name,
     String phone,
   }) {
-    log("username: " + isValidUsername(username).toString());
-    log("email: " + isValidUsername(email).toString());
-    log("password: " + isValidUsername(password).toString());
-    log("name: " + isValidUsername(name).toString());
-    log("phone: " + isValidUsername(phone).toString());
+    // log("username: " + isValidUsername(username).toString());
+    // log("email: " + isValidUsername(email).toString());
+    // log("password: " + isValidUsername(password).toString());
+    // log("name: " + isValidUsername(name).toString());
+    // log("phone: " + isValidUsername(phone).toString());
     if (isValidUsername(username) &&
         isValidEmail(email) &&
         isValidPassword(password) &&
@@ -92,7 +105,7 @@ class SignUpBloc {
         );
         return true;
       } catch (e) {
-        log(e);
+        // log(e);
       }
     }
     return false;

@@ -14,14 +14,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    // var user_repository = User_Repository();
-    // user_repository.signUp(
-    //   username: "linh1996",
-    //   email: "linh123@gmail.com",
-    //   password: "12345678",
-    //   name: "linh nguyen",
-    //   phone: "086915273",
-    // );
+    var user_repository = User_Repository();
+    user_repository.signIn(
+      username: "linh1996",
+      password: "12345678",
+    );
+
 
     return SafeArea(
       child: Scaffold(

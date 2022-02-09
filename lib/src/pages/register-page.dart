@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:garage_apollo/src/blocs/signUp_bloc.dart';
@@ -13,17 +13,20 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool _obscurePass;
+  bool _obscurePassAgain;
+
   SignUpBloc _signUpBloc = SignUpBloc();
 
   TextEditingController _txtusernameController = TextEditingController();
   TextEditingController _txtemailController = TextEditingController();
   TextEditingController _txtpasswordController = TextEditingController();
+  TextEditingController _txtpasswordAgainController = TextEditingController();
   TextEditingController _txtnameController = TextEditingController();
   TextEditingController _txtphoneController = TextEditingController();
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     var signupBloc = Provider.of<SignUpBloc>(context);
     _txtusernameController.addListener(() {
@@ -35,12 +38,22 @@ class _RegisterPageState extends State<RegisterPage> {
     _txtpasswordController.addListener(() {
       signupBloc.isValidPassword(_txtpasswordController.text);
     });
+    _txtpasswordAgainController.addListener(() { 
+      signupBloc.isValidPasswordAgain(_txtpasswordAgainController.text);
+    });
     _txtnameController.addListener(() {
       signupBloc.isValidName(_txtnameController.text);
     });
     _txtphoneController.addListener(() {
       signupBloc.isValidPhone(_txtphoneController.text);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _obscurePass = true;
+    _obscurePassAgain = true;
   }
 
   @override
@@ -84,6 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 BorderRadius.circular(borderTFFAndButton),
                           ),
                           hintText: hintTextUserName,
+                          errorText: snapshot.hasError ? snapshot.error : null,
                           hintStyle: TextStyle(color: colorHintText),
                           prefixIcon: userNameIcon,
                         ),
@@ -104,6 +118,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   BorderRadius.circular(borderTFFAndButton),
                             ),
                             hintText: hintTextEmail,
+                            errorText:
+                                snapshot.hasError ? snapshot.error : null,
                             hintStyle: TextStyle(color: colorHintText),
                             prefixIcon: emailIcon,
                           ),
@@ -111,39 +127,70 @@ class _RegisterPageState extends State<RegisterPage> {
                       }),
                 ),
                 StreamBuilder(
-                    stream: signupBloc.password,
+                  stream: signupBloc.password,
+                  builder: (context, snapshot) {
+                    return TextFormField(
+                      obscureText: _obscurePass,
+                      controller: _txtpasswordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(borderTFFAndButton),
+                        ),
+                        hintText: hintTextPassword,
+                        hintStyle: TextStyle(color: colorHintText),
+                        prefixIcon: passwordIcon,
+                        errorText: snapshot.hasError ? snapshot.error : null,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obscurePass = !_obscurePass;
+                            });
+                          },
+                          icon: Icon(
+                            _obscurePass
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: paddingVerticalTextFF),
+                  child: StreamBuilder(
+                    stream: signupBloc.passwordAgain,
                     builder: (context, snapshot) {
                       return TextFormField(
-                        controller: _txtpasswordController,
+                        obscureText: _obscurePassAgain,
+                        controller: _txtpasswordAgainController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.circular(borderTFFAndButton),
                           ),
-                          hintText: hintTextPassword,
+                          hintText: hintTextPasswordAgain,
                           hintStyle: TextStyle(color: colorHintText),
                           prefixIcon: passwordIcon,
+                          errorText: snapshot.hasError ? snapshot.error : null,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassAgain = !_obscurePassAgain;
+                              });
+                            },
+                            icon: Icon(
+                              _obscurePassAgain
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                          ),
                         ),
                       );
-                    }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: paddingVerticalTextFF),
-                  child: StreamBuilder(
-                      stream: signupBloc.password,
-                      builder: (context, snapshot) {
-                        return TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(borderTFFAndButton),
-                            ),
-                            hintText: hintTextPasswordAgain,
-                            hintStyle: TextStyle(color: colorHintText),
-                            prefixIcon: passwordIcon,
-                          ),
-                        );
-                      }),
+                    },
+                  ),
                 ),
                 StreamBuilder(
                     stream: signupBloc.name,
@@ -151,14 +198,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       return TextFormField(
                         controller: _txtnameController,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(borderTFFAndButton),
-                          ),
-                          hintText: hintTextFullName,
-                          hintStyle: TextStyle(color: colorHintText),
-                          prefixIcon: fulnameIcon,
-                        ),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.circular(borderTFFAndButton),
+                            ),
+                            hintText: hintTextFullName,
+                            hintStyle: TextStyle(color: colorHintText),
+                            prefixIcon: fulnameIcon,
+                            errorText:
+                                snapshot.hasError ? snapshot.error : null),
                       );
                     }),
                 Padding(
@@ -175,6 +223,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   BorderRadius.circular(borderTFFAndButton),
                             ),
                             hintText: hintTextphoneNumber,
+                            errorText:
+                                snapshot.hasError ? snapshot.error : null,
                             hintStyle: TextStyle(color: colorHintText),
                             prefixIcon: phoneIcon,
                           ),
