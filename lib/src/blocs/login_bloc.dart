@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:garage_apollo/src/repositories/user_repository.dart';
 import 'package:garage_apollo/src/validations/user_validation.dart';
 
 class LoginBloc {
-  User_Repository user_repository;
+  User_Repository _user_repository = User_Repository();
 
   StreamController _usernameController = new StreamController.broadcast();
   StreamController _passwordController = new StreamController.broadcast();
@@ -30,7 +31,22 @@ class LoginBloc {
     return false;
   }
 
-  void dispose(){
+  Future<bool> loginUser({String username, String password}) async {
+    if (isValidUsername(username) && isValidPassword(password)) {
+      try {
+        await _user_repository.signIn(
+          username: username,
+          password: password,
+        );
+        return true;
+      } catch (e) {
+        log(e.toString());
+      }
+    }
+    return false;
+  }
+
+  void dispose() {
     _usernameController.close();
     _passwordController.close();
   }

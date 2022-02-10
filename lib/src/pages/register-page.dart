@@ -1,6 +1,9 @@
 // import 'dart:developer';
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:garage_apollo/src/blocs/login_bloc.dart';
 import 'package:garage_apollo/src/blocs/signUp_bloc.dart';
 import 'package:garage_apollo/src/constants/signUp_constant.dart';
 import 'package:garage_apollo/src/pages/home_page.dart';
@@ -38,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _txtpasswordController.addListener(() {
       signupBloc.isValidPassword(_txtpasswordController.text);
     });
-    _txtpasswordAgainController.addListener(() { 
+    _txtpasswordAgainController.addListener(() {
       signupBloc.isValidPasswordAgain(_txtpasswordAgainController.text);
     });
     _txtnameController.addListener(() {
@@ -292,7 +295,10 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => Provider<LoginBloc>.value(
+          value: LoginBloc(),
+          child: LoginPage(),
+        ),
       ),
     );
   }
@@ -306,6 +312,7 @@ class _RegisterPageState extends State<RegisterPage> {
         name: _txtnameController.text,
         phone: _txtphoneController.text,
       );
+      log(signUp.toString());
       if (signUp) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomePage()));

@@ -31,7 +31,10 @@ class User_Repository {
     return response.body;
   }
 
-  Future<void> signIn({String username, String password}) async {
+  Future<void> signIn({
+    String username,
+    String password,
+  }) async {
     Map<String, dynamic> sendata = {
       "username": username.toString(),
       "password": password.toString(),

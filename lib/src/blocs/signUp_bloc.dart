@@ -1,11 +1,11 @@
 import 'dart:async';
-// import 'dart:developer';
+import 'dart:developer';
 
 import 'package:garage_apollo/src/repositories/user_repository.dart';
 import 'package:garage_apollo/src/validations/user_validation.dart';
 
 class SignUpBloc {
-  User_Repository user_repository;
+  User_Repository _user_repository = User_Repository();
 
   StreamController _usernameController = new StreamController.broadcast();
   StreamController _emailController = new StreamController.broadcast();
@@ -51,8 +51,8 @@ class SignUpBloc {
     return false;
   }
 
-  bool isValidPasswordAgain(String password){
-    if(password == txtpassword && password != ""){
+  bool isValidPasswordAgain(String password) {
+    if (password == txtpassword && password != "") {
       _passwordAgainController.sink.add("OK");
       return true;
     }
@@ -78,13 +78,13 @@ class SignUpBloc {
     return false;
   }
 
-  bool signUpUser({
+  Future<bool> signUpUser({
     String username,
     String email,
     String password,
     String name,
     String phone,
-  }) {
+  }) async {
     // log("username: " + isValidUsername(username).toString());
     // log("email: " + isValidUsername(email).toString());
     // log("password: " + isValidUsername(password).toString());
@@ -96,7 +96,7 @@ class SignUpBloc {
         isValidName(name) &&
         isValidPhone(phone)) {
       try {
-        user_repository.signUp(
+        await _user_repository.signUp(
           username: username,
           email: email,
           password: password,
@@ -105,7 +105,7 @@ class SignUpBloc {
         );
         return true;
       } catch (e) {
-        // log(e);
+        log(e);
       }
     }
     return false;

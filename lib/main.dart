@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:garage_apollo/src/blocs/login_bloc.dart';
+import 'package:garage_apollo/src/pages/home_page.dart';
+import 'package:provider/provider.dart';
 import 'src/pages/login_page.dart';
 
 void main() {
@@ -14,7 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      // home: Provider<LoginBloc>.value(
+      //   value: LoginBloc(),
+      //   child: LoginPage(),
+      // ),
+      home: HomePage(),
     );
   }
 }

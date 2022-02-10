@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:garage_apollo/src/pages/home/home_home_page.dart';
+import 'package:garage_apollo/src/pages/home/setting_home_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,15 +16,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        onPageChanged: (index){
+        onPageChanged: (index) {
           setState(() {
             _selectedPageIndex = index;
           });
         },
         children: <Widget>[
-          Container(color: Colors.blue,),
-          Container(color: Colors.green,),
-          Container(color: Colors.black,),
+          ListGateWayPage(),
+          Container(
+            color: Colors.green,
+          ),
+          SettingPage(),
         ],
       ),
       bottomNavigationBar: _bottomBar(),
@@ -32,9 +36,9 @@ class _HomePageState extends State<HomePage> {
   Widget _bottomBar() {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Trang chủ"),
         BottomNavigationBarItem(icon: Icon(Icons.search), label: "GateWay"),
-        BottomNavigationBarItem(icon: Icon(Icons.light), label: "Light"),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Cài đặt"),
       ],
       selectedItemColor: Color(0xfffa6400),
       currentIndex: _selectedPageIndex,

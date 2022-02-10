@@ -61,6 +61,8 @@ flutter:
   assets:
     - assets/images/dqsmart.png
     - assets/images/google4.png
+    - assets/images/dqh_dark.PNG
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -77,6 +79,10 @@ flutter:
     - family: Ankle
       fonts:
         - asset: assets/fonts/Ankle.ttf
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway-Thin.ttf
+        
 
   # fonts:
   #   - family: Schyler
